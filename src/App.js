@@ -29,7 +29,10 @@ class App extends Component {
     return (
       <div className="App">
         <main>
-          <BoardSizes sizes={BOARD_SIZES} changeSize={this.handleSizeChange}/>
+          <BoardSizes 
+            currentSize={this.state.sizeMode}       // For adding and removing active class
+            sizes={BOARD_SIZES} 
+            changeSize={this.handleSizeChange}/>
           <Board size={this.state.sizeMode} />
           <Menu />
         </main>

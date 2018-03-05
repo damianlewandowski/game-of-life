@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {ButtonStyles, ButtonHoverStyles} from './ButtonStyles';
+import {ButtonStyles, ButtonHoverStyles, ButtonActive} from './ButtonStyles';
 
 class BoardSizeBtn extends Component {
   constructor(props) {
@@ -23,18 +23,25 @@ class BoardSizeBtn extends Component {
 
   handleClick() {
     this.props.changeSize(this.props.size)
-    this.setState((prevState) => {
-      return {active: !prevState.active}
-    })
+    this.props.updateActive()
+  }
+
+  getStyles() {
+    if(this.props.isActive) {
+      return {...ButtonStyles, ...ButtonActive};
+    } else if(this.state.hovered) {
+      return {...ButtonStyles, ...ButtonHoverStyles}
+    } else {
+      return ButtonStyles;
+    }
   }
 
   render() {
-    const currentStyles = this.state.hovered ? {...ButtonStyles, ...ButtonHoverStyles} : ButtonStyles;
     
     return (
       <button
         onClick={this.handleClick}
-        style={currentStyles}
+        style={this.getStyles()}
         onMouseEnter={this.toggleHover}
         onMouseLeave={this.toggleHover}>{`${this.props.size}x${this.props.size}`}</button>
     )

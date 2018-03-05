@@ -25,4 +25,5 @@ export const ButtonActive = {
   "padding":"6px 12px 4px",
   "background":"-webkit-gradient(linear, left top, left bottom, color-stop(3%,#20282D), color-stop(51%,#252E34), color-stop(100%,#222A30))","filter":"progid:DXImageTransform.Microsoft.gradient( startColorstr='#20282D', endColorstr='#222A30',GradientType=0 )",
   "MozBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)",
-  "WebkitBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)","boxShadow":"1px 1px 1px rgba(255,255,255,0.1)"}
+  "WebkitBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)","boxShadow":"1px 1px 1px rgba(255,255,255,0.1)"
+}
