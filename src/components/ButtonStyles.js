@@ -27,3 +27,21 @@ export const ButtonActive = {
   "MozBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)",
   "WebkitBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)","boxShadow":"1px 1px 1px rgba(255,255,255,0.1)"
 }
+
+export const MenuStyles = {
+  margin: "0 6px",
+  color: "#fff",
+  textShadow: "1px 0 #222, -1px 0 #222, 0 1px #222, 0 -1px #222",
+  fontSize: "2rem",
+  listStyle: "none",
+}
+
+export function getStyles(isActive, isHovered) {
+  if(isActive) {
+    return {...ButtonStyles, ...ButtonActive};
+  } else if(isHovered) {
+    return {...ButtonStyles, ...ButtonHoverStyles}
+  } else {
+    return ButtonStyles;
+  }
+}

@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import BoardSizeBtn from './BoardSizeBtn';
 
-const BoardSizesStyles = {
-  marginRight: "6px",
-  color: "#fff",
-  textShadow: "1px 0 #222, -1px 0 #222, 0 1px #222, 0 -1px #222",
-  fontSize: "2rem",
-  listStyle: "none",
-}
+import { MenuStyles } from './ButtonStyles';
+
+import BoardSizeBtn from './BoardSizeBtn';
 
 class BoardSizes extends Component {
   constructor(props) {
@@ -33,14 +28,13 @@ class BoardSizes extends Component {
         <BoardSizeBtn
           isActive={this.state.activeButtonId === i}
           updateActive={this.updateActive.bind(null, i)}
-          currentSize={this.props.currentSize}
-          size={size} 
+          size={size}
           changeSize={this.props.changeSize} />
       </li>
     ))
 
     return (
-      <ul style={BoardSizesStyles}>
+      <ul style={MenuStyles}>
         <h3>Board Size</h3>
         {sizeItems}
       </ul>

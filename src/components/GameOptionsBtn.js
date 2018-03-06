@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 
 import { getStyles } from './ButtonStyles';
 
-class BoardSizeBtn extends Component {
+const GameOptionsBtnStyles = {
+  width: "150px",
+}
+
+class GameOptionsBtn extends Component {
   constructor(props) {
     super(props)
 
@@ -22,20 +26,19 @@ class BoardSizeBtn extends Component {
   }
 
   handleClick() {
-    this.props.changeSize(this.props.size)
+    this.props.changeOption(this.props.option)
     this.props.updateActive()
   }
 
   render() {
-    
     return (
       <button
         onClick={this.handleClick}
-        style={getStyles(this.props.isActive, this.state.hovered)}
+        style={{...getStyles(this.props.isActive, this.state.hovered), ...GameOptionsBtnStyles}}
         onMouseEnter={this.toggleHover}
-        onMouseLeave={this.toggleHover}>{`${this.props.size}x${this.props.size}`}</button>
+        onMouseLeave={this.toggleHover}>{`${this.props.option}`}</button>
     )
   }
 }
 
-export default BoardSizeBtn;
+export default GameOptionsBtn;

@@ -14,7 +14,20 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 95%;
+  flex-direction: column;
+  width: 98%;
   height: 100%;
   margin: auto;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+}
+
+p {
+  color: #fff;
+  text-shadow: 1px 0 #0f0f0f, -1px 0 #0f0f0f, 0 1px #0f0f0f, 0 -1px #0f0f0f;
+  margin-bottom: 4px;
+  font-size: 2.5rem;
 }
