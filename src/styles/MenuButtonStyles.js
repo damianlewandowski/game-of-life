@@ -1,6 +1,6 @@
 export const ButtonStyles = {
   outline: 0,
-  width: "100%",
+  width: "150px",
   fontSize: "2rem",
   background: "-webkit-gradient(linear, left top, left bottom, color-stop(3%,#3D4850), color-stop(4%,#313d45), color-stop(100%,#232B30))",
   textShadow: "1px 1px #1f272b",
@@ -9,7 +9,7 @@ export const ButtonStyles = {
   padding: "5px 0",
   color: "#9fa8b0",
   boxShadow: "1px 1px 1px rgba(0,0,0,0.2)",
-  marginBottom: "5px",
+  margin: "5px 5px 0 5px",
   cursor: "pointer",
 }
 
@@ -26,22 +26,4 @@ export const ButtonActive = {
   "background":"-webkit-gradient(linear, left top, left bottom, color-stop(3%,#20282D), color-stop(51%,#252E34), color-stop(100%,#222A30))","filter":"progid:DXImageTransform.Microsoft.gradient( startColorstr='#20282D', endColorstr='#222A30',GradientType=0 )",
   "MozBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)",
   "WebkitBoxShadow":"1px 1px 1px rgba(255,255,255,0.1)","boxShadow":"1px 1px 1px rgba(255,255,255,0.1)"
-}
-
-export const MenuStyles = {
-  margin: "0 6px",
-  color: "#fff",
-  textShadow: "1px 0 #222, -1px 0 #222, 0 1px #222, 0 -1px #222",
-  fontSize: "2rem",
-  listStyle: "none",
-}
-
-export function getStyles(isActive, isHovered) {
-  if(isActive) {
-    return {...ButtonStyles, ...ButtonActive};
-  } else if(isHovered) {
-    return {...ButtonStyles, ...ButtonHoverStyles}
-  } else {
-    return ButtonStyles;
-  }
 }

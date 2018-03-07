@@ -1,73 +1,102 @@
 import React, { Component } from 'react';
 
-import SimSpeed from './components/SimSpeed';
+import Generations from './components/Generations';
+import Menu from './components/Menu';
 import Board from './components/Board';
-import BoardSizes from './components/BoardSizes';
-import GameOptions from './components/GameOptions';
+
+import {GAME_OPTIONS, SIZES_OPTIONS, SPEED_OPTIONS} from './constants';
 
 import './App.css';
 
-const BOARD_SIZES = [25, 50, 100];
-const SIM_SPEEDS = ["SLOW", "MEDIUM", "FAST"];
-const GAME_OPTIONS = ["START", "STOP", "CLEAR"]
-
 class App extends Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
-      sizeMode: 50,      
-      speedMode: "MEDIUM",
-      gameMode: "START",
+      generations: 0,                   // Passed to Generations component. Responsible for displaying accurate generation number.
+      currentSize: SIZES_OPTIONS[0],    // Passed to BoardSizeOptions component. Responsible for board's current size
+      currentSpeed: SPEED_OPTIONS[0],   // Passed to SpeedOptions component. Responsible for speed of game of life
+      currentGameMode: GAME_OPTIONS[0], // Passed to Board component. Responsible for starting, stopping and clearing the board
+      intervalId: -1,                   // Returned by setInterval in Board component. 
     }
 
-    this.handleSizeChange = this.handleSizeChange.bind(this);
-    this.handleSpeedChange = this.handleSpeedChange.bind(this);
-    this.handleGameModeChange = this.handleGameModeChange.bind(this);
+    this.updateGenerations = this.updateGenerations.bind(this);
+    this.updateCurrentSize = this.updateCurrentSize.bind(this);
+    this.updateCurrentSpeed = this.updateCurrentSpeed.bind(this);
+    this.updateCurrentGameMode = this.updateCurrentGameMode.bind(this);
   }
 
-  handleSpeedChange(speed) {
-    this.setState({speedMode: speed});
+  // Update generations.
+  updateGenerations() {
+    this.setState((prevState) => ({
+      generations: prevState.generations + 1
+    }))
   }
 
-  handleSizeChange(size) {
-    this.setState({
-      sizeMode: size,
-    })
+  // Update current size from the SizesMenu ---> MenuButton
+  updateCurrentSize(size) {
+    // !!TODO!!
+    // Implement resetting the Board component
+    // 
+    //
+    //
+    this.setState(() => ({
+      currentSize: size,
+    }), () => console.log(this.state.currentSize))
   }
 
-  handleGameModeChange(gameMode) {
-    this.setState({
-      gameMode
-    })
+  // Update current simulation speed from the SpeedMenu ---> MenuButton
+  updateCurrentSpeed(speed) {
+    this.setState(() => ({
+      currentSpeed: speed
+    }), () => console.log(this.state.currentSpeed))
+  }
+
+  updateCurrentGameMode(gameMode) {
+    // !! TODO !!
+    // Implement resetting the interval on slower speed
+    //
+    //
+    //
+    this.setState(() => ({
+      currentGameMode: gameMode,
+    }), () => console.log(this.state.currentGameMode))
   }
 
   render() {
     return (
       <div className="App">
         <main>
+        <Generations generations={this.state.generations}/>
+        
+        <div className="middle">
+          <Menu
+            menuTitle="Size"
+            list={SIZES_OPTIONS}
+            activeOption={this.state.currentSize}
+            updateFunc={this.updateCurrentSize}/>
 
-          <p>Generations: 5</p>
-          <div className="middle">
-            <BoardSizes 
-              currentSize={this.state.sizeMode}       // For adding and removing active class
-              sizes={BOARD_SIZES} 
-              changeSize={this.handleSizeChange}/>
-            <Board size={this.state.sizeMode} />
-            <SimSpeed 
-              changeSpeed={this.handleSpeedChange}
-              currentSpeed={this.state.speedMode}
-              speeds={SIM_SPEEDS} />
-          </div>
+          <Board 
+            currentSize={this.state.currentSize}/>
+
+          <Menu
+            menuTitle="Speed"
+            list={SPEED_OPTIONS}
+            activeOption={this.state.currentSpeed}
+            updateFunc={this.updateCurrentSpeed}/>
+        </div>
           
-            
-          <GameOptions
-            changeOption={this.handleGameModeChange}
-            currentOption={this.state.currentOption}
-            options={GAME_OPTIONS}/>
+          
+          <Menu
+            menuTitle="Options"
+            list={GAME_OPTIONS}
+            activeOption={this.state.currentGameMode}
+            updateFunc={this.updateCurrentGameMode}
+            styles={{display: "flex", justifyContent: "space-around", width: "720px", marginTop: "6px"}}
+            btnStyles={{display: "flex"}}/>
         </main>
       </div>
-    );
+    )
   }
 }
 
