@@ -42,14 +42,14 @@ class App extends Component {
     //
     this.setState(() => ({
       currentSize: size,
-    }), () => console.log(this.state.currentSize))
+    }),)
   }
 
   // Update current simulation speed from the SpeedMenu ---> MenuButton
   updateCurrentSpeed(speed) {
     this.setState(() => ({
       currentSpeed: speed
-    }), () => console.log(this.state.currentSpeed))
+    }),)
   }
 
   updateCurrentGameMode(gameMode) {
@@ -60,7 +60,7 @@ class App extends Component {
     //
     this.setState(() => ({
       currentGameMode: gameMode,
-    }), () => console.log(this.state.currentGameMode))
+    }))
   }
 
   render() {

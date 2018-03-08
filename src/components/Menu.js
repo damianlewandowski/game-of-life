@@ -32,6 +32,7 @@ const Menu = (props) => {
 }
 
 Menu.propTypes = {
+  menuTitle: propTypes.string,
   list: propTypes.array.isRequired,
   activeOption: propTypes.string.isRequired,
   updateFunc: propTypes.func.isRequired,

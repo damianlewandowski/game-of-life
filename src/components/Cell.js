@@ -5,7 +5,7 @@ import {alive, dead, cell25, cell50, cell100} from '../styles/CellStyles';
 
 const Cell = (props) => {
   function getStyles() {
-    if(props.alive) {
+    if(props.existence) {
       return alive;
     } 
     return dead;
@@ -37,7 +37,7 @@ const Cell = (props) => {
 
 
 Cell.propTypes = {
-  alive: propTypes.number,
+  existence: propTypes.number,
   handleClick: propTypes.func,
   currentSize: propTypes.string
 }
