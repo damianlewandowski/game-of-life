@@ -45,6 +45,10 @@ class Board extends Component {
       this.props.updateIntervalId(this.beginGame())
       this.props.updateStartGame();
     }
+
+    if(nextProps.currentGameMode === "CLEAR") {
+      this.handleClear();
+    }
   }
       
   beginGame() {
@@ -58,11 +62,10 @@ class Board extends Component {
       case "SLOW":        
         return 1;
       case "MEDIUM":
-        return 2;
+        return 4;
       case "FAST":
-        return 3;
+        return 6;
       default: 
-        console.log("DEFAULT!")
         return 1;
     }
   }
@@ -72,9 +75,15 @@ class Board extends Component {
     return cells;
   }
 
+  createDeadCells(rows, cols) {
+    const cells = new Array(rows).fill(new Array(cols).fill(0)).map(row => row.map(col => rand(true)))
+    return cells;
+  }
+
   handleCellClick(row, col) {
     const cells = this.state.cellBtns.slice(0);
     cells[row][col] = cells[row][col] ? 0 : 1;
+    
     this.setState({
       cellBtns: cells
     })
@@ -104,6 +113,16 @@ class Board extends Component {
 
     this.setState(() => ({
       cellBtns: newCells
+    }), () => this.props.updateGenerations())
+  }
+
+  handleClear() {
+    clearInterval(this.props.intervalId);
+
+    const [rows, cols] = this.props.currentSize.split("x").map(num => parseInt(num, 10));
+    const cells = this.createDeadCells(rows, cols)
+    this.setState(() => ({
+      cellBtns: cells,
     }))
   }
 
@@ -130,7 +149,14 @@ class Board extends Component {
 }
 
 BoardStyles.propTypes = {
-  currentSize: propTypes.string,
+  intervalId: propTypes.number.isRequired,
+  updateGenerations: propTypes.func.isRequired,
+  updateStartGame: propTypes.func.isRequired,
+  updateIntervalId: propTypes.func.isRequired,
+  startGame: propTypes.bool.isRequired,
+  currentSpeed: propTypes.string.isRequired,
+  currentSize: propTypes.string.isRequired,
+  currentGameMode: propTypes.string.isRequired,
 }
 
 export default Board;

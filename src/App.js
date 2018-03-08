@@ -27,24 +27,26 @@ class App extends Component {
     this.updateCurrentGameMode = this.updateCurrentGameMode.bind(this);
     this.updateIntervalId = this.updateIntervalId.bind(this);
     this.updateStartGame = this.updateStartGame.bind(this);
+    this.handleStart = this.handleStart.bind(this);
+    this.handlePause = this.handlePause.bind(this);
   }
 
-  updateGenerations() {
+  updateGenerations(reset=0) {
     this.setState((prevState) => ({
-      generations: prevState.generations + 1
+      generations: reset ? 0 : prevState.generations + 1
     }))
   }
 
   // Update current size from the SizesMenu ---> MenuButton
   updateCurrentSize(size) {
-    // !!TODO!!
-    // Implement resetting the Board component
-    // 
-    //
-    //
+    if(size !== this.state.currentSize) {
+      // Reset generations
+      this.updateGenerations(1)
+    }
+
     this.setState(() => ({
       currentSize: size,
-    }),)
+    }), )
   }
 
   // Update current simulation speed from the SpeedMenu ---> MenuButton
@@ -59,18 +61,29 @@ class App extends Component {
         }))
       }
     })
-
-    
   }
 
   updateCurrentGameMode(gameMode) {
-    // !! TODO !!
-    // Implement resetting the interval on slower speed
-    //
-    //
-    //
+    if(gameMode === "START") {
+      this.handleStart();
+    } else if(gameMode === "PAUSE") {
+      this.handlePause()
+    }
+
     this.setState(() => ({
       currentGameMode: gameMode,
+    }))
+  }
+
+  handlePause() {
+    if(this.state.intervalId !== -1) {
+      clearInterval(this.state.intervalId);
+    }
+  }
+
+  handleStart() {
+    this.setState(() => ({
+      startGame: true,
     }))
   }
 
@@ -100,8 +113,11 @@ class App extends Component {
             updateFunc={this.updateCurrentSize}/>
 
           <Board
+            currentGameMode={this.state.currentGameMode}
+            updateGenerations={this.updateGenerations}
             updateStartGame={this.updateStartGame}
             startGame={this.state.startGame}
+            intervalId={this.state.intervalId}
             updateIntervalId={this.updateIntervalId}
             currentSpeed={this.state.currentSpeed}
             currentSize={this.state.currentSize}/>
