@@ -18,15 +18,17 @@ class App extends Component {
       currentSpeed: SPEED_OPTIONS[0],   // Passed to SpeedOptions component. Responsible for speed of game of life
       currentGameMode: GAME_OPTIONS[0], // Passed to Board component. Responsible for starting, stopping and clearing the board
       intervalId: -1,                   // Returned by setInterval in Board component. 
+      startGame: false,                  // Passed to Board component. Responsible for running playSingleGeneration function
     }
 
     this.updateGenerations = this.updateGenerations.bind(this);
     this.updateCurrentSize = this.updateCurrentSize.bind(this);
     this.updateCurrentSpeed = this.updateCurrentSpeed.bind(this);
     this.updateCurrentGameMode = this.updateCurrentGameMode.bind(this);
+    this.updateIntervalId = this.updateIntervalId.bind(this);
+    this.updateStartGame = this.updateStartGame.bind(this);
   }
 
-  // Update generations.
   updateGenerations() {
     this.setState((prevState) => ({
       generations: prevState.generations + 1
@@ -49,7 +51,16 @@ class App extends Component {
   updateCurrentSpeed(speed) {
     this.setState(() => ({
       currentSpeed: speed
-    }),)
+    }), () => {
+      if(this.state.intervalId !== -1) {
+        clearInterval(this.state.intervalId);
+        this.setState(() => ({
+          startGame: true,
+        }))
+      }
+    })
+
+    
   }
 
   updateCurrentGameMode(gameMode) {
@@ -60,6 +71,18 @@ class App extends Component {
     //
     this.setState(() => ({
       currentGameMode: gameMode,
+    }))
+  }
+
+  updateIntervalId(id) {
+    this.setState(() => ({
+      intervalId: id,
+    }))
+  }
+
+  updateStartGame() {
+    this.setState((prevState) => ({
+      startGame: false
     }))
   }
 
@@ -76,7 +99,11 @@ class App extends Component {
             activeOption={this.state.currentSize}
             updateFunc={this.updateCurrentSize}/>
 
-          <Board 
+          <Board
+            updateStartGame={this.updateStartGame}
+            startGame={this.state.startGame}
+            updateIntervalId={this.updateIntervalId}
+            currentSpeed={this.state.currentSpeed}
             currentSize={this.state.currentSize}/>
 
           <Menu

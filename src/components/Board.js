@@ -19,15 +19,17 @@ class Board extends Component {
 
     this.handleCellClick = this.handleCellClick.bind(this);
     this.playGeneration = this.playGeneration.bind(this);
+    this.getSpeed = this.getSpeed.bind(this);
+    this.beginGame = this.beginGame.bind(this);
   }
 
   componentDidMount() {
     const [rows, cols] = this.props.currentSize.split("x").map(num => parseInt(num, 10));
     const cells = this.createNewCells(rows, cols);
-    console.log(cells);
+
     this.setState(() => ({
       cellBtns: cells,
-    }), () => setInterval(this.playGeneration, 20));
+    }), () => this.props.updateIntervalId(this.beginGame()));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,6 +39,31 @@ class Board extends Component {
       this.setState(() => ({
         cellBtns: cells,
       }))
+    }
+
+    if(nextProps.startGame) {
+      this.props.updateIntervalId(this.beginGame())
+      this.props.updateStartGame();
+    }
+  }
+      
+  beginGame() {
+    // Send id returned from setInterval function to App.js component.
+    // Used for calling clearInterval when user changes specific option like sim speed (e.g. slow)
+    return setInterval(this.playGeneration, 1000 / this.getSpeed());
+  }
+
+  getSpeed() {
+    switch(this.props.currentSpeed) {
+      case "SLOW":        
+        return 1;
+      case "MEDIUM":
+        return 2;
+      case "FAST":
+        return 3;
+      default: 
+        console.log("DEFAULT!")
+        return 1;
     }
   }
 
@@ -54,15 +81,10 @@ class Board extends Component {
   }
 
   playGeneration() {
-    const newCells = this.state.cellBtns.map(rows => rows.map(col => col));
+    const newCells = this.state.cellBtns.map(rows => rows.slice(0));
     
-    console.log(newCells);
     for(let row = 0; row < this.state.cellBtns.length; row++) {
       for(let col = 0; col < this.state.cellBtns[row].length; col++) {
-
-        // if(row === 2 && col === 2) {
-        //   console.log(this.state.cellBtns)  
-        // }
         const neighbours = checkNeighbours(row, col, this.state.cellBtns);
         
         switch(neighbours) {
